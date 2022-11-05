@@ -36,7 +36,6 @@ main() {
 
     rm -rf .deploy
     mkdir -p .deploy
-
     echo "Identifying changed charts since tag '$latest_tag'..."
 
     local changed_charts=()
@@ -66,16 +65,16 @@ find_latest_tag() {
 
 package_chart() {
     local chart="$1"
-    Helm dependency build "$chart"
-    Helm package "$chart" --destination .deploy
+    /usr/local/bin/helm dependency build "$chart"
+    /usr/local/bin/helm package "$chart" --destination .deploy
 }
 
 release_charts() {
-    chart-releaser upload -o "$GIT_USERNAME" -r "$GIT_REPOSITORY_NAME" -p .deploy
-}
+    chart-releaser upload -t "$CH_TOKEN" -o "$GIT_USERNAME" -r "$GIT_REPOSITORY_NAME" -p .deploy 
+ }
 
 update_index() {
-    chart-releaser index -o "$GIT_USERNAME" -r "$GIT_REPOSITORY_NAME" -p .deploy/index.yaml
+    chart-releaser index -i .deploy/index.yaml -o "$GIT_USERNAME" -r "$GIT_REPOSITORY_NAME" -p .deploy 
 
     git config user.email "$GIT_EMAIL"
     git config user.name "$GIT_USERNAME"
@@ -95,7 +94,7 @@ update_index() {
         cp --force --recursive .deploy/docs/charts/* charts/
     fi
 
-    git checkout master -- README.md
+    git checkout main -- README.md
 
     if ! git diff --quiet; then
         git add .
