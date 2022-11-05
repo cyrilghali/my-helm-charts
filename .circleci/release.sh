@@ -36,7 +36,8 @@ main() {
 
     rm -rf .deploy
     mkdir -p .deploy
-
+    echo "ls: "
+    ls -la 
     echo "Identifying changed charts since tag '$latest_tag'..."
 
     local changed_charts=()
@@ -66,17 +67,20 @@ find_latest_tag() {
 
 package_chart() {
     local chart="$1"
-    Helm dependency build "$chart"
-    Helm package "$chart" --destination .deploy
+    /usr/local/bin/helm dependency build "$chart"
+    /usr/local/bin/helm package "$chart" --destination .deploy
 }
 
 release_charts() {
-    chart-releaser upload -o "$GIT_USERNAME" -r "$GIT_REPOSITORY_NAME" -p .deploy
-}
+    chart-releaser upload -t "$CH_TOKEN" -o "$GIT_USERNAME" -r "$GIT_REPOSITORY_NAME" -p .deploy 
+    echo "l2: "
+    ls -la 
+ }
 
 update_index() {
-    chart-releaser index -o "$GIT_USERNAME" -r "$GIT_REPOSITORY_NAME" -p .deploy/index.yaml
-
+    chart-releaser index -t "$CH_TOKEN" -o "$GIT_USERNAME" -r "$GIT_REPOSITORY_NAME" -p .deploy/index.yaml 
+    echo "l3: "
+    ls -la 
     git config user.email "$GIT_EMAIL"
     git config user.name "$GIT_USERNAME"
 
@@ -88,6 +92,8 @@ update_index() {
     done
 
     git checkout gh-pages
+    echo "l4: "
+    ls -la 
     cp --force .deploy/index.yaml index.yaml
 
     if [[ -e ".deploy/docs/charts" ]]; then
