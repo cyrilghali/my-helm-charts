@@ -1,0 +1,4 @@
+apiVersion: v2
+description: a Wordpress Helm Chart.
+name: wordpress-ghali-lab
+version: 0.1.0
