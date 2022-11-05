@@ -1,0 +1,12 @@
+apiVersion: v1
+entries:
+  wordpress-ghali-lab:
+  - apiVersion: v2
+    created: "2022-11-05T12:05:26.732971+01:00"
+    description: a Wordpress Helm Chart.
+    digest: 6291e8586b0664b08147ccc17823dc3f121c65c7ffcc3951b59581aa47684df5
+    name: wordpress-ghali-lab
+    urls:
+    - https://github.com/ghali-lab/my-helm-charts/releases/download/wordpress-ghali-lab-0.1.0/wordpress-ghali-lab-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-11-05T12:05:26.733006+01:00"
